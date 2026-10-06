@@ -1,0 +1,22 @@
+# Maven / Java
+target/
+*.class
+*.jar
+*.war
+
+# IDEs
+.idea/
+*.iml
+.classpath
+.project
+.settings/
+
+# Terraform
+terraform/.terraform/
+terraform/*.tfstate
+terraform/*.tfstate.backup
+terraform/.terraform.lock.hcl
+
+# System / Logs
+*.log
+.DS_Store

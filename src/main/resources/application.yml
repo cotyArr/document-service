@@ -1,0 +1,18 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: document-service
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
+
+aws:
+  region: us-east-1
+  endpoint: http://localhost:4566
+  s3:
+    bucket-name: devops-app-storage-dev
+  sns:
+    topic-arn: arn:aws:sns:us-east-1:000000000000:document-events-topic
