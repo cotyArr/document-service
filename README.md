@@ -22,6 +22,31 @@ sequenceDiagram
     SNS-->>SQS: Propagación asíncrona (Fan-Out Subscription)
     API-->>Client: 200 OK (JSON response)
     SQS-->>Client: Mensaje disponible para consumidores
+cat << 'EOF' > README.md
+# Document Service — Event-Driven Architecture con Spring Boot, LocalStack y Terraform
+
+Servicio backend de gestión de documentos y procesamiento asíncrono de eventos basado en un patrón **Fan-Out (SNS -> SQS)** y almacenamiento de objetos en **AWS S3**, simulado localmente mediante **LocalStack** e infraestructura como código (**Terraform**).
+
+---
+
+## 🏗️ Arquitectura del Sistema
+
+```mermaid
+sequenceDiagram
+    autonumber
+    actor Client as Cliente / cURL
+    participant API as Spring Boot API
+    participant S3 as AWS S3 Bucket
+    participant SNS as AWS SNS Topic
+    participant SQS as AWS SQS Queue
+
+    Client->>API: POST /api/v1/documents/upload (MultipartFile)
+    API->>S3: Guardar objeto (PutObjectRequest)
+    S3-->>API: OK (FileKey asignado)
+    API->>SNS: Publicar evento DOCUMENT_UPLOADED
+    SNS-->>SQS: Propagación asíncrona (Fan-Out Subscription)
+    API-->>Client: 200 OK (JSON response)
+    SQS-->>Client: Mensaje disponible para consumidores
 
 🛠️ Tecnologías Utilizadas
 
@@ -93,5 +118,5 @@ awslocal s3 ls s3://devops-app-storage-dev
 Bash
 
 awslocal sqs receive-message \
-  --queue-url [http://sqs.us-east-1.localhost.localstack.cloud:4566/000000000000/document-processing-queue](http://sqs.us-east-1.localhost.localstack.cloud:4566/000000000000/document-processing-queue)
+  --queue-url http://sqs.us-east-1.localhost.localstack.cloud:4566/000000000000/document-processing-queue
 
